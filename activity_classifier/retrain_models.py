@@ -46,8 +46,13 @@ def train_and_cross_validate(data, model, model_name):
         y_pred_test = model.predict(X_test)
         model_summary = create_model_performance_summary(model_summary, y_test, y_pred_test)
     average_performance = {k.upper(): np.mean(v) for k, v in model_summary.items()}
-
+    variability_performance = {k.upper(): np.std(v) for k, v in model_summary.items()}
+    min_performance = {k.upper(): np.min(v) for k, v in model_summary.items()}
+    max_performance = {k.upper(): np.max(v) for k, v in model_summary.items()}
     print(f"RESULTS {model_name}: {average_performance}")
+    print(f"VARIABILITY RESULTS {model_name}: {variability_performance}")
+    print(f"MIN RESULTS {model_name}: {min_performance}")
+    print(f"MAX RESULTS {model_name}: {max_performance}")
     return model
 
 

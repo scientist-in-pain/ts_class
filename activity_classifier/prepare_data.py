@@ -34,6 +34,11 @@ def prepare_data(data, seconds, end_frame_rate):
     """
     assert data.isnull().sum().sum() == 0, AssertionError("Data contains empty values, correct and retry")
     assert np.isinf(data).values.sum() == 0, AssertionError("Data contains inf values, correct and retry")
+    # my attempt to stop the error...
+    # for i,row in zip(np.array(data).shape[0],np.array(data)):
+    #     data.loc[i,OBS] =pd.Series(interpolate_data(row, seconds, end_frame_rate))
+    
+    #original code
     data[OBS] = [pd.Series(interpolate_data(row, seconds, end_frame_rate)) for row in np.array(data)]
     interpolations = data[OBS].apply(pd.Series)
     interpolations.to_csv(INTERPOLATION_PATH)
