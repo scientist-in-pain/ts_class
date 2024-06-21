@@ -1,7 +1,5 @@
 # TimeSeries Classification for Spontaneous Neuron Activity
 
-# **PLEASE NOTE - We are aware of an issue with the activity classifier and this is currently being resolved**
-
 This repo contains code, pickle files and a Google Colab notebook for two binary classifiers of time series data. The aim of these models is to predict whether or not a neuron has spontaneous activity.
 
 Two models are included in this repo, from the SKTime project: TimeSeries Forest Classifier and Random Spectral Interval Ensemble. For more detail on these models, see  https://www.sktime.org/en/latest/ .
@@ -15,13 +13,14 @@ The easiest way to run and train these models is via the Colab notebook. To use 
 If needed, the repo can be cloned to your local machine, see here: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository
 
 
-## Install requirements
-If running locally, it is assumed that python is already installed on your local machine. A virtual environment is recommended to hold all libraries required to run the project in a clean and safe way. To do this:
-1. Open command line
-2. python -m venv /path/to/new/virtual/environment    #We recommned creating new virtual environment in the envs folder C:/Users/Your_name/anaconda3/envs/SA
-4. /path/to/new/virtual/environment/Scripts/activate   #If using envs folder C:/Users/Your_name/anaconda3/envs/SA/Scripts/activate
-5. cd path/to/ts_class/   #change working directory to location of ts_class folder
-7. pip install -r requirements.txt
+## Local installation
+If running locally, a virtual environment is recommended to hold all libraries required to run the project in a clean and safe way. Make sure you choose Python version = 3.10 when setting up your virtual environment. To do this:
+1. Install an [Anaconda](https://www.anaconda.com/download/) distribution of Python 
+2. Open anaconda prompt
+3. Create a new environment with `conda create -n yourenvname python=3.10`
+4. Activate your environment `conda activate yourenvname`
+5. Change working directory to location of ts_class folder `cd path/to/ts_class/`   
+6. Install package requirements `pip install -r requirements.txt`
 
 
 ## Data
@@ -41,20 +40,25 @@ Example train and test datasets are provided in the 'data' folder. The current m
 ## Running models
 Both models are set up to be run from main.py, with the output of both contained in an output .csv file in the /data directory.
 
-To run the script, activate the virtual environment if using
-```python
-conda activate 'name of virtual environment'
+To run the script, activate the virtual environment if using (use conda or source depending on how environment was created)
+```commandline
+conda/source activate 'name of virtual environment'
 ```
 In the command line move to the ts_class folder 
-```python
+```commandline
 cd path/to/ts_class/
 ```
 enter
- ```python
- python -m activity_classifier.main path/to/data.csv <number of frames>
+ ```commandline
+ python -m activity_classifier.main path/to/data.csv <recording duration> <recording sampling rate>
  ```
- Note, number of frames should be the same number of frames used in model training. If greater or less frames are required, retrain first.
- The output file should appear in the ts_class/data directory
+ Note, duration and sampling rate should be the same as those used in model training. If different duration or sampling rate are required, retrain first.
+ The output file should appear in the ts_class/data directory. 
+
+To run on our test data, use:
+```commandline
+python -m activity_classifier.main data/test_data.csv 151 3.65
+```
  
  
  ## Retraining models
@@ -63,11 +67,16 @@ enter
  Training data should be in the same format as above, but also include a labelling column called 'status' which contains the activity label for the neuron on that row (e.g. 'active', 'inactive')
  
  To run the script, activate the virtual environment if using, then in the command line move to the ts_class folder and enter
- ```python
+ ```commandline
  python -m activity_classifier.retrain_models path/to/training/data.csv <recording duration> <recording sampling rate>
  ```
  
- The retrained models will be saved in the /models directory and will replace any existing models.
+The retrained models will be saved in the /models directory and will replace any existing models.
+
+To train models using our sample data, use:
+```commandline
+python -m activity_classifier.retrain_models data/training_data.csv 151 3.65
+```
  
  
  
